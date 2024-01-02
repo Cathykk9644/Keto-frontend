@@ -44,7 +44,7 @@ const Header = () => {
               </li>
               <button
                 onClick={() =>
-                  navigate("/signup", {
+                  navigate("/createaccount", {
                     state: { from: location.pathname },
                   })
                 }

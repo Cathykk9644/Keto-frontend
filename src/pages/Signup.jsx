@@ -71,10 +71,10 @@ const Signup = () => {
                   newUser
                 );
                 console.log(response.data);
-                const parseRes = await response.data;
+                const parseRes = response.jwtToken;
 
-                if (parseRes.jwtToken) {
-                  localStorage.setItem("token", parseRes.jwtToken);
+                if (parseRes) {
+                  localStorage.setItem("token", parseRes);
                   toast.success("Registered Successfully");
                   navigate("/");
                 } else {
@@ -125,10 +125,10 @@ const Signup = () => {
                   newUser
                 );
                 console.log(response.data);
-                const parseRes = await response.data;
+                const parseRes = response.jwtToken;
 
-                if (parseRes.jwtToken) {
-                  localStorage.setItem("token", parseRes.jwtToken);
+                if (parseRes) {
+                  localStorage.setItem("token", parseRes);
                   toast.success("Registered Successfully");
                   navigate("/");
                 } else {
@@ -177,249 +177,246 @@ const Signup = () => {
             </span>
           </p>
         </div>
-
         {/* two steps signup process */}
-        <AnimatePresence mode="wait">
-          {showFirstStep ? (
-            // * Step 1: Render out form to collect user information
-            <motion.div
-              key="0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              exit={{ opacity: 0 }}
-              className=" w-1/2 bg-bgColor2 py-20 px-20"
-            >
-              <h1 className="text-3xl font-bold mb-6 text-gray-500 items-center">
-                Create Account
-              </h1>
-              <Formik
-                initialValues={{
-                  firstname: "",
-                  lastname: "",
-                  email: "",
-                  password: "",
-                  confirmpassword: "",
-                }}
-                validate={(values) => {
-                  const errors = {};
-                  if (!values.firstname) {
-                    errors.firstname = "Required";
-                  }
-                  if (!values.lastname) {
-                    errors.lastname = "Required";
-                  }
-                  if (!values.email) {
-                    errors.email = "Required";
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                      values.email
-                    )
-                  ) {
-                    errors.email = "Invalid email address";
-                  }
-                  if (!values.password) {
-                    errors.password = "Required";
-                  }
-                  if (!values.confirmpassword) {
-                    errors.confirmpassword = "Required";
-                  }
-                  if (values.confirmpassword !== values.password) {
-                    errors.confirmpassword = "Passwords mismatch";
-                  }
-                  return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    setFirstName(values.firstname);
-                    setLastName(values.lastname);
-                    setEmail(values.email);
-                    setPassword(values.password);
-                    setSubmitting(false);
-                    setShowFirstStep(false);
-                  }, 400);
-                }}
+        {/* <AnimatePresence mode="wait"> */}
+        {/* {showFirstStep ? ( */}
+        // * Step 1: Render out form to collect user information
+        <div
+          // key="0"
+          // initial={{ opacity: 0 }}
+          // animate={{ opacity: 1 }}
+          // transition={{ duration: 0.5 }}
+          // exit={{ opacity: 0 }}
+          className=" w-1/2 bg-bgColor2 py-20 px-20"
+        >
+          <h1 className="text-3xl font-bold mb-6 text-gray-500 items-center">
+            Create Account
+          </h1>
+          {/* <Formik
+            initialValues={{
+              firstname: "",
+              lastname: "",
+              email: "",
+              password: "",
+              confirmpassword: "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.firstname) {
+                errors.firstname = "Required";
+              }
+              if (!values.lastname) {
+                errors.lastname = "Required";
+              }
+              if (!values.email) {
+                errors.email = "Required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              ) {
+                errors.email = "Invalid email address";
+              }
+              if (!values.password) {
+                errors.password = "Required";
+              }
+              if (!values.confirmpassword) {
+                errors.confirmpassword = "Required";
+              }
+              if (values.confirmpassword !== values.password) {
+                errors.confirmpassword = "Passwords mismatch";
+              }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                setFirstName(values.firstname);
+                setLastName(values.lastname);
+                setEmail(values.email);
+                setPassword(values.password);
+                setSubmitting(false);
+                setShowFirstStep(false);
+              }, 400);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form
+                className="flex flex-col w-full items-center mt-8"
+                noValidate
               >
-                {({ isSubmitting }) => (
-                  <Form
-                    className="flex flex-col w-full items-center mt-8"
-                    noValidate
+                <div className="flex flex-col items-center w-full">
+                  <div className="w-full max-w-xs md:max-w-lg">
+                    <label className="block text-gray-500 text-xs font-semibold">
+                      First Name
+                    </label>
+                    <Field
+                      type="text"
+                      name="firstname"
+                      placeholder="Mark"
+                      className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+                    />
+                    <ErrorMessage
+                      className="block text-xs text-primary mt-1"
+                      name="firstname"
+                      component="div"
+                    />
+                  </div>
+
+                  <div className="w-full max-w-xs md:max-w-lg">
+                    <label className="block text-gray-500 text-xs font-semibold">
+                      Last Name
+                    </label>
+                    <Field
+                      type="text"
+                      name="lastname"
+                      placeholder="Zuckerberg"
+                      className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+                    />
+                    <ErrorMessage
+                      className="block text-xs text-primary mt-1"
+                      name="lastname"
+                      component="div"
+                    />
+                  </div>
+
+                  <div className="w-full max-w-xs md:max-w-lg">
+                    <label className="block text-gray-500 text-xs font-semibold">
+                      Email
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="MarkZuckerberg@meta.com"
+                      className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+                    />
+                    <ErrorMessage
+                      className="block text-xs text-primary mt-1"
+                      name="email"
+                      component="div"
+                    />
+                  </div>
+
+                  <div className="w-full max-w-xs md:max-w-lg">
+                    <label className="block text-gray-500 text-xs font-semibold">
+                      Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+                    />
+                    <ErrorMessage
+                      className="block text-xs text-primary mt-1"
+                      name="password"
+                      component="div"
+                    />
+                  </div>
+
+                  <div className="w-full max-w-xs md:max-w-lg">
+                    <label className="block text-gray-500 text-xs font-semibold">
+                      Confirm Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="confirmpassword"
+                      placeholder="confirmpassword"
+                      className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+                    />
+                    <ErrorMessage
+                      className="block text-xs text-primary mt-1"
+                      name="confirmpassword"
+                      component="div"
+                    />
+                  </div>
+
+                  <button
+                    className="h-10 px-4 py-2 bg-bgColor3 text-white w-full rounded-md hover:bg-emerald-600 max-w-xs md:max-w-lg mt-4 text-sm focus:outline-none"
+                    type="submit"
+                    disabled={isSubmitting}
                   >
-                    <div className="flex flex-col items-center w-full">
-                      <div className="w-full max-w-xs md:max-w-lg">
-                        <label className="block text-gray-500 text-xs font-semibold">
-                          First Name
-                        </label>
-                        <Field
-                          type="text"
-                          name="firstname"
-                          placeholder="Mark"
-                          className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
-                        />
-                        <ErrorMessage
-                          className="block text-xs text-primary mt-1"
-                          name="firstname"
-                          component="div"
-                        />
-                      </div>
-
-                      <div className="w-full max-w-xs md:max-w-lg">
-                        <label className="block text-gray-500 text-xs font-semibold">
-                          Last Name
-                        </label>
-                        <Field
-                          type="text"
-                          name="lastname"
-                          placeholder="Zuckerberg"
-                          className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
-                        />
-                        <ErrorMessage
-                          className="block text-xs text-primary mt-1"
-                          name="lastname"
-                          component="div"
-                        />
-                      </div>
-
-                      <div className="w-full max-w-xs md:max-w-lg">
-                        <label className="block text-gray-500 text-xs font-semibold">
-                          Email
-                        </label>
-                        <Field
-                          type="email"
-                          name="email"
-                          placeholder="MarkZuckerberg@meta.com"
-                          className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
-                        />
-                        <ErrorMessage
-                          className="block text-xs text-primary mt-1"
-                          name="email"
-                          component="div"
-                        />
-                      </div>
-
-                      <div className="w-full max-w-xs md:max-w-lg">
-                        <label className="block text-gray-500 text-xs font-semibold">
-                          Password
-                        </label>
-                        <Field
-                          type="password"
-                          name="password"
-                          placeholder="password"
-                          className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
-                        />
-                        <ErrorMessage
-                          className="block text-xs text-primary mt-1"
-                          name="password"
-                          component="div"
-                        />
-                      </div>
-
-                      <div className="w-full max-w-xs md:max-w-lg">
-                        <label className="block text-gray-500 text-xs font-semibold">
-                          Confirm Password
-                        </label>
-                        <Field
-                          type="password"
-                          name="confirmpassword"
-                          placeholder="confirmpassword"
-                          className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
-                        />
-                        <ErrorMessage
-                          className="block text-xs text-primary mt-1"
-                          name="confirmpassword"
-                          component="div"
-                        />
-                      </div>
-
-                      <button
-                        className="h-10 px-4 py-2 bg-bgColor3 text-white w-full rounded-md hover:bg-emerald-600 max-w-xs md:max-w-lg mt-4 text-sm focus:outline-none"
-                        type="submit"
-                        disabled={isSubmitting}
-                      >
-                        Continue
-                      </button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </motion.div>
-          ) : (
-            // * Step 2: Rendering out setting profile picture UI
-            <motion.div
-              key="1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center w-full xl:w-1/2"
-            >
-              <h2 className="text-2xl font-semibold">Set Your Avatar</h2>
-              <p className="text-sm text-center w-3/4 text-gray-400">
-                You can choose from any of our existing avatars, or feel free to
-                upload your own picture!
-              </p>
-              <div className="relative mt-4 mb-4">
-                {!profilePictureFile ? (
-                  <>
-                    <Avatar
-                      className="w-56 h-56 rounded-full"
-                      {...blobConfig}
-                      id="avatar"
-                    />
-                    <button
-                      className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
-                      onClick={handleRefreshAvatar}
-                    >
-                      <PiArrowsCounterClockwiseBold />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={URL.createObjectURL(profilePictureFile)}
-                      alt="profile"
-                      className="w-56 h-56 object-cover rounded-full"
-                    />
-                    <button
-                      className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
-                      onClick={() => setProfilePictureFile(null)}
-                    >
-                      <PiTrashBold />
-                    </button>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-col items-center justify-center gap-2 mt-6 w-full">
-                <label
-                  htmlFor="image-input"
-                  className="btn cursor-pointer h-10 w-60 px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
-                >
-                  Upload
-                </label>
-                <input
-                  id="image-input"
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={(e) => setProfilePictureFile(e.target.files[0])}
+                    Continue
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik> */}
+        </div>
+        {/* ) : ( */}
+        // * Step 2: Rendering out setting profile picture UI
+        {/* <div
+          key="1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0 }}
+          className="flex flex-col items-center justify-center w-full xl:w-1/2"
+        >
+          <h2 className="text-2xl font-semibold">Set Your Avatar</h2>
+          <p className="text-sm text-center w-3/4 text-gray-400">
+            You can choose from any of our existing avatars, or feel free to
+            upload your own picture!
+          </p>
+          <div className="relative mt-4 mb-4">
+            {!profilePictureFile ? (
+              <>
+                <Avatar
+                  className="w-56 h-56 rounded-full"
+                  {...blobConfig}
+                  id="avatar"
                 />
                 <button
-                  className="h-10 w-60 px-4 py-2 bg-bgColor3 text-white rounded-md hover:bg-emerald-600 text-sm focus:outline-none"
-                  onClick={handleCreateAccount}
-                  disabled={isCreating}
+                  className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
+                  onClick={handleRefreshAvatar}
                 >
-                  Create Account
+                  <PiArrowsCounterClockwiseBold />
                 </button>
+              </>
+            ) : (
+              <>
+                <img
+                  src={URL.createObjectURL(profilePictureFile)}
+                  alt="profile"
+                  className="w-56 h-56 object-cover rounded-full"
+                />
                 <button
-                  className="h-8 w-60 px-2 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
-                  onClick={() => setShowFirstStep(true)}
+                  className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
+                  onClick={() => setProfilePictureFile(null)}
                 >
-                  Back
+                  <PiTrashBold />
                 </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2 mt-6 w-full">
+            <label
+              htmlFor="image-input"
+              className="btn cursor-pointer h-10 w-60 px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
+            >
+              Upload
+            </label>
+            <input
+              id="image-input"
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={(e) => setProfilePictureFile(e.target.files[0])}
+            />
+            <button
+              className="h-10 w-60 px-4 py-2 bg-bgColor3 text-white rounded-md hover:bg-emerald-600 text-sm focus:outline-none"
+              onClick={handleCreateAccount}
+              disabled={isCreating}
+            >
+              Create Account
+            </button>
+            <button
+              className="h-8 w-60 px-2 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
+              onClick={() => setShowFirstStep(true)}
+            >
+              Back
+            </button>
+          </div>
+        </div> */}
+        {/* )} */}
+        {/* </AnimatePresence> */}
       </div>
     );
   };
