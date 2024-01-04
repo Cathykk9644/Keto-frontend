@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Bg from "../Assets/Bg.png";
 import Header from "./Header";
 import Banner from "./Banner";
 import MealSection from "./MealSection";
+import CartContainer from "./CartContainer";
+import { useStateValue } from "../context/StateProvider";
 
 const HomeContainer = () => {
+  const [{ foodItems, cartShow }, dispatch] = useStateValue();
+  const [scrollValue, setScrollValue] = useState(0);
+
+  useEffect(() => {}, [scrollValue, cartShow]);
+
   return (
     <div className="relative w-screen h-screen">
       <img src={Bg} alt="bg-img" className="w-full h-full object-cover" />
@@ -12,6 +19,7 @@ const HomeContainer = () => {
         <Header />
         <Banner />
         <MealSection />
+        {cartShow && <CartContainer />}
       </div>
     </div>
   );

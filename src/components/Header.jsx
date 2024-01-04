@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../Assets/logo.png";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
+
+  const showCart = () => {
+    dispatch({
+      type: actionType.SET_CART_SHOW,
+      cartShow: !cartShow,
+    });
+  };
 
   return (
     <div className="fixed w-screen z-50 p-6 px-16">
@@ -44,7 +55,7 @@ const Header = () => {
               </li>
               <button
                 onClick={() =>
-                  navigate("/createaccount", {
+                  navigate("/signup", {
                     state: { from: location.pathname },
                   })
                 }
@@ -67,7 +78,11 @@ const Header = () => {
               required
             />
           </form>
-          <motion.div whileHover={{ scale: 0.9 }} className="relative ml-8">
+          <motion.div
+            whileHover={{ scale: 0.9 }}
+            onClick={showCart}
+            className="relative ml-8"
+          >
             <FiShoppingCart className="w-12 h-12 text-white bg-green-400 rounded-full py-4" />
             <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center ">
               <p className="text-xs text-textColor1 ">16</p>
