@@ -58,7 +58,7 @@ const CartItem = ({ item, setFlag, flag }) => {
         className="w-20 h-20 max-w-[60px] rounded-full object-contain"
         alt=""
       />
-
+      dust Copy
       {/* name section */}
       <div className="flex flex-col gap-2">
         <p className="text-base text-gray-50">{item?.title}</p>
@@ -66,7 +66,6 @@ const CartItem = ({ item, setFlag, flag }) => {
           $ {parseFloat(item?.price) * qty}
         </p>
       </div>
-
       {/* button section */}
       <div className="group flex items-center gap-2 ml-auto cursor-pointer">
         <motion.div

@@ -7,7 +7,8 @@ import logo from "../Assets/logo.png";
 import domtoimage from "dom-to-image";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
 import { BACKEND_URL } from "../constants";
 
 import { PiArrowsCounterClockwiseBold, PiTrashBold } from "react-icons/pi";
@@ -64,7 +65,7 @@ const Signup = () => {
                   lastName,
                   email,
                   password,
-                  profilePicture: url,
+                  profile_picture: url,
                 };
                 const response = await axios.post(
                   `${BACKEND_URL}/auth/signup`,
@@ -119,7 +120,7 @@ const Signup = () => {
                   lastName,
                   email,
                   password,
-                  profilePicture: url,
+                  profile_picture: url,
                 };
                 const response = await axios.post(
                   `${BACKEND_URL}/auth/signup`,
@@ -154,7 +155,7 @@ const Signup = () => {
     <div className="flex min-h-screen">
       {/* Left Side with Background Image */}
       <div
-        className="w-1/2 bg-cover text-white py-12 px-12 object-fill "
+        className=" w-1/2 bg-cover text-white py-12 px-12 object-fill "
         style={{ backgroundImage: `url(${signupbg})` }}
       >
         <Link to="/">
@@ -350,28 +351,28 @@ const Signup = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0 }}
-            className="flex flex-col items-center justify-center w-full xl:w-1/2"
+            className="flex flex-col items-center justify-center w-1/2 bg-bgColor2"
           >
-            <h2 className="text-2xl font-semibold text-gray-500">
-              Set Your Avatar
+            <h2 className="text-2xl font-semibold text-gray-500 mb-4">
+              Avatar Time
             </h2>
-            <p className="text-sm text-center w-3/4 text-gray-400">
+            <p className="text-xs text-center w-3/4 text-gray-400">
               You can choose from any of our existing avatars, or feel free to
-              upload your own picture!
+              upload your very own amazing picture!
             </p>
             <div className="relative mt-4 mb-4">
               {!profilePictureFile ? (
                 <>
                   <Avatar
-                    className="w-56 h-56 rounded-full"
+                    className="w-60 h-60 rounded-full"
                     {...blobConfig}
                     id="avatar"
                   />
                   <button
-                    className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
+                    className="absolute bottom-[-0.1rem] right-[1.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
                     onClick={handleRefreshAvatar}
                   >
-                    <PiArrowsCounterClockwiseBold />
+                    <PiArrowsCounterClockwiseBold className="text-2xl" />
                   </button>
                 </>
               ) : (
@@ -382,10 +383,10 @@ const Signup = () => {
                     className="w-56 h-56 object-cover rounded-full"
                   />
                   <button
-                    className="absolute bottom-[-0.2rem] right-[-0.5rem] h-10 w-10 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
+                    className="absolute bottom-[-0.1rem] right-[1.5rem] h-9 w-9 p-2 rounded-full text-gray-500 bg-white hover:bg-bgColor3 focus:outline-none"
                     onClick={() => setProfilePictureFile(null)}
                   >
-                    <PiTrashBold />
+                    <PiTrashBold className="text-lg" />
                   </button>
                 </>
               )}
@@ -393,7 +394,7 @@ const Signup = () => {
             <div className="flex flex-col items-center justify-center gap-2 mt-6 w-full">
               <label
                 htmlFor="image-input"
-                className="btn cursor-pointer h-10 w-60 px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
+                className="btn cursor-pointer  px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"
               >
                 Upload
               </label>

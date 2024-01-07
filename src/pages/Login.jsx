@@ -2,20 +2,56 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import loginbg from "../Assets/loginbg.png";
 import logo from "../Assets/logo.png";
+import Axios from "axios";
+import { toast } from "react-toastify";
+import { BACKEND_URL } from "../constants";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = inputs;
+
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    console.log(inputs);
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.post(`${BACKEND_URL}/auth/login`, inputs);
+
+      if (response.data.jwtToken) {
+        localStorage.setItem("token", response.data.jwtToken);
+        toast.success("Logged in Successfully");
+        navigate("/"); // Update with your desired route
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Login failed. Please try again.");
+    }
+  };
   return (
     <div className="flex min-h-screen">
       <div className=" flex flex-col gap-8 w-1/2 bg-bgColor2 py-32 px-20">
         <h1 className="text-4xl font-bold text-gray-500 items-center">Login</h1>
-        <form className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4" onSubmit={onSubmitForm}>
           <div className="w-full">
             <label className="block text-gray-500 text-xs">Your Email</label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+              name="email"
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => onChange(e)}
               required
             />
           </div>
@@ -24,8 +60,11 @@ const Login = () => {
             <label className="block text-gray-500 text-xs">Your Password</label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-teal-600"
+              name="password"
               type="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => onChange(e)}
               required
             />
           </div>

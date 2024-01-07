@@ -15,11 +15,11 @@ const Banner = () => {
           Simply Keto, Simply Life
         </h1>
 
-        <p className="mb-12 text-gray-400 text-sm">
+        <p className="mb-14 mt-14 text-gray-400 text-sm">
           Transform your lifestyle with our Keto Food Delivery App! Enjoy the
           convenience of delicious and healthy keto meals delivered to your
-          doorstep. Experience the benefits of keto and intermittent fasting
-          while savoring the flavors you love.
+          doorstep. Experience the benefits of keto while savoring the flavors
+          you love.
         </p>
 
         <div className="flex items-center">
