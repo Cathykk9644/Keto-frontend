@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Banner = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-full flex mt-44 px-10 ">
+    <div className="w-full flex  px-10 ">
       {" "}
       {/* mt-24 is to give space below the fixed header */}
       <div className="flex-1 p-12">
@@ -19,13 +19,13 @@ const Banner = () => {
           Transform your lifestyle with our Keto Food Delivery App! Enjoy the
           convenience of delicious and healthy keto meals delivered to your
           doorstep. Experience the benefits of keto while savoring the flavors
-          you love.
+          you love the most!
         </p>
 
         <div className="flex items-center">
           <button
             onClick={() => navigate("/signup")}
-            className="bg-emerald-500 text-white p-4 rounded-xl text-md hover:bg-emerald-600 transition duration-300 hover:scale-90 "
+            className=" text-white py-3 px-4 rounded-xl text-md hover:bg-emerald-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-emerald-300 to bg-emerald-600"
           >
             Order Now
           </button>

@@ -5,6 +5,7 @@ import Banner from "./Banner";
 import MealSection from "./MealSection";
 import CartContainer from "./CartContainer";
 import { useStateValue } from "../context/StateProvider";
+import Testimonial from "./Testimonial";
 
 const HomeContainer = () => {
   const [{ foodItems, cartShow }, dispatch] = useStateValue();
@@ -19,6 +20,7 @@ const HomeContainer = () => {
         <Header />
         <Banner />
         <MealSection />
+        <Testimonial />
         {cartShow && <CartContainer />}
       </div>
     </div>

@@ -1,18 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import logo from "../Assets/logo.png";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { motion } from "framer-motion";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const dropdownRef = useRef(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+
+  // Function to toggle the dropdown menu
+  const toggleDropdown = () => {
+    setDropdown(!dropdown);
+  };
+
+  // This effect will add an event listener to the document to hide the dropdown when clicking outside
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (
+        dropdown &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [dropdown]); // Dependency array with dropdown ensures the effect is run when the dropdown's visibility changes
 
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
+
+  // Define the admin email here
+  const adminEmail = "florahui@test.com";
+
+  // Check if the user is an admin
+  useEffect(() => {
+    setIsAdmin(user?.email === adminEmail);
+  }, [user]);
+
+  const logout = () => {
+    // Clear user from local storage or any other storage used
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // Update the global state to set the user to null
+    dispatch({
+      type: actionType.SET_USER,
+      user: null,
+    });
+
+    navigate("/");
+  };
 
   const showCart = () => {
     dispatch({
@@ -22,10 +72,10 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed w-screen z-50 p-6 px-16">
-      {/* for mobile */}
-      <div className="flex md:hidden w-full h-full"></div>
-      {/* for desktop & tablet */}
+    <div className=" w-screen z-50 p-6 px-16">
+      {/* for mobile /}
+<div className="flex md:hidden w-full h-full"></div>
+{/ for desktop & tablet */}
       <div className="hidden md:flex w-full h-full justify-between items-center">
         <div className="flex items-center gap-8">
           <div className="flex items-center">
@@ -43,26 +93,88 @@ const Header = () => {
                 <RiArrowDropDownLine className="text-2xl " />
               </div>
 
-              <li
-                onClick={() =>
-                  navigate("/login", {
-                    state: { from: location.pathname },
-                  })
-                }
-                className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer font-semibold"
+              <div
+                className="flex items-center gap-8 relative "
+                onMouseLeave={() => setDropdown(false)}
               >
-                Login
-              </li>
-              <button
-                onClick={() =>
-                  navigate("/signup", {
-                    state: { from: location.pathname },
-                  })
-                }
-                className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400 hover:text-xs "
-              >
-                Signup
-              </button>
+                {user ? (
+                  // User is logged in
+                  <>
+                    <button
+                      onClick={logout}
+                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400"
+                    >
+                      {" "}
+                      Logout
+                    </button>
+                    <img
+                      src={user.profile_picture}
+                      alt="Profile"
+                      className="w-11 h-11 rounded-full object-cover cursor-pointer border-gray-300 border-2
+                      
+                      "
+                      ref={dropdownRef} // Add this line to set the ref for the dropdown
+                      onClick={toggleDropdown}
+                    />
+                    {/* dropdown bar */}
+                    {dropdown && (
+                      <div className="absolute right-0 mt-24 py-1 w-24 bg-white rounded-lg shadow-xl z-20">
+                        <span
+                          className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/profile");
+                            setDropdown(false);
+                          }}
+                        >
+                          Profile
+                        </span>
+                        <span
+                          className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent the event from being propagated to parent elements
+                            navigate("/orders");
+                            setDropdown(false);
+                          }}
+                        >
+                          Orders
+                        </span>
+                        {isAdmin && (
+                          <span
+                            className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent the event from being propagated to parent elements
+                              navigate("/addmeal");
+                              setDropdown(false);
+                            }}
+                          >
+                            Add Meal
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <span className="text-xs text-gray-500 -ml-6 -mb-6 font-semibold italic">
+                      {user.firstName}
+                    </span>
+                  </>
+                ) : (
+                  // User is not logged in
+                  <>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer font-semibold"
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => navigate("/signup")}
+                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400"
+                    >
+                      Signup
+                    </button>
+                  </>
+                )}
+              </div>
             </ul>
           </div>
         </div>

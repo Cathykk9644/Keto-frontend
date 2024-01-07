@@ -1,17 +1,17 @@
 export const fetchUser = () => {
-  const userInfo =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
-
-  return userInfo;
+  const userItem = localStorage.getItem("user");
+  if (userItem && userItem !== "undefined") {
+    return JSON.parse(userItem);
+  }
+  localStorage.removeItem("user"); // Clear invalid user data if it's not correct
+  return null; // Return null or a default user structure if not found
 };
 
 export const fetchCart = () => {
-  const cartInfo =
-    localStorage.getItem("cartItems") !== "undefined"
-      ? JSON.parse(localStorage.getItem("cartItems"))
-      : localStorage.clear();
-
-  return cartInfo ? cartInfo : [];
+  const cartItem = localStorage.getItem("cartItems");
+  if (cartItem && cartItem !== "undefined") {
+    return JSON.parse(cartItem);
+  }
+  localStorage.removeItem("cartItems"); // Clear invalid cart data if it's not correct
+  return []; // Return an empty array if no cart items are found
 };

@@ -5,9 +5,12 @@ import logo from "../Assets/logo.png";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../constants";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [{ user }, dispatch] = useStateValue();
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -18,7 +21,6 @@ const Login = () => {
 
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
-    console.log(inputs);
   };
 
   const onSubmitForm = async (e) => {
@@ -28,8 +30,19 @@ const Login = () => {
 
       if (response.data.jwtToken) {
         localStorage.setItem("token", response.data.jwtToken);
+
+        // Assuming response.data.user is your user object
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        console.log(response.data.user);
+
         toast.success("Logged in Successfully");
         navigate("/"); // Update with your desired route
+
+        // Update the global state with the user info
+        dispatch({
+          type: actionType.SET_USER,
+          user: response.data.user,
+        });
       } else {
         toast.error("Invalid credentials");
       }

@@ -78,7 +78,7 @@ const Signup = () => {
                 if (parseRes) {
                   localStorage.setItem("token", parseRes);
                   toast.success("Registered Successfully");
-                  navigate("/");
+                  navigate("/login");
                 } else {
                   toast.error(parseRes);
                 }
@@ -192,7 +192,7 @@ const Signup = () => {
             exit={{ opacity: 0 }}
             className=" w-1/2 bg-bgColor2 py-20 px-20"
           >
-            <h1 className="text-3xl font-bold mb-6 text-gray-500 items-center">
+            <h1 className="text-3xl font-bold mb-2 text-gray-500 items-center">
               Create Account
             </h1>
             <Formik
@@ -242,11 +242,11 @@ const Signup = () => {
             >
               {({ isSubmitting }) => (
                 <Form
-                  className="flex flex-col w-full items-center mt-8"
+                  className="flex flex-col w-full items-center mt-6"
                   noValidate
                 >
                   <div className="flex flex-col items-center w-full">
-                    <div className="w-full max-w-xs md:max-w-lg mb-3">
+                    <div className="w-full max-w-xs md:max-w-lg mb-4">
                       <label className="block text-gray-400 text-xs font-semibold">
                         First Name
                       </label>
@@ -263,7 +263,7 @@ const Signup = () => {
                       />
                     </div>
 
-                    <div className="w-full max-w-xs md:max-w-lg mb-3">
+                    <div className="w-full max-w-xs md:max-w-lg mb-4">
                       <label className="block text-gray-400 text-xs font-semibold">
                         Last Name
                       </label>
@@ -280,7 +280,7 @@ const Signup = () => {
                       />
                     </div>
 
-                    <div className="w-full max-w-xs md:max-w-lg mb-3">
+                    <div className="w-full max-w-xs md:max-w-lg mb-4">
                       <label className="block text-gray-400 text-xs font-semibold">
                         Email
                       </label>
@@ -297,7 +297,7 @@ const Signup = () => {
                       />
                     </div>
 
-                    <div className="w-full max-w-xs md:max-w-lg mb-2">
+                    <div className="w-full max-w-xs md:max-w-lg mb-4">
                       <label className="block text-gray-400 text-xs font-semibold">
                         Password
                       </label>
