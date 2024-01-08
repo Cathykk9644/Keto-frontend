@@ -2,8 +2,22 @@ import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
+import { toast } from "react-toastify";
 
 const MealRow = ({ meal, flag }) => {
+  const [{}, dispatch] = useStateValue();
+
+  const addToCart = () => {
+    dispatch({
+      type: actionType.ADD_TO_CART,
+      payload: meal,
+    });
+    toast.success(`${meal.name} added to cart!`, {
+      autoClose: 1800,
+    });
+  };
   if (!meal) {
     return <div>No meal data available</div>;
   }
@@ -47,6 +61,7 @@ const MealRow = ({ meal, flag }) => {
             <motion.div
               whileTap={{ scale: 0.8 }}
               className="w-8 h-8 rounded-full bg-emerald-400 flex items-center justify-center text-white text-xs cursor-pointer hover:shadow-md hover:bg-emerald-500"
+              onClick={addToCart}
             >
               <FiShoppingCart />
             </motion.div>

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -42,6 +43,12 @@ const Header = () => {
 
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
+  // Calculate the total number of items in the cart
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   // Define the admin email here
   const adminEmail = "florahui@test.com";
 
@@ -60,7 +67,7 @@ const Header = () => {
       type: actionType.SET_USER,
       user: null,
     });
-
+    toast.success("Logged out Successfully");
     navigate("/");
   };
 
@@ -72,12 +79,12 @@ const Header = () => {
   };
 
   return (
-    <div className=" w-screen z-50 p-6 px-16">
+    <div className="w-screen z-50 p-6 px-16">
       {/* for mobile /}
 <div className="flex md:hidden w-full h-full"></div>
 {/ for desktop & tablet */}
       <div className="hidden md:flex w-full h-full justify-between items-center">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
           <div className="flex items-center">
             <img src={logo} alt="logo" className="w-32 object-cover " />
           </div>
@@ -153,8 +160,8 @@ const Header = () => {
                         )}
                       </div>
                     )}
-                    <span className="text-xs text-gray-500 -ml-6 -mb-6 font-semibold italic">
-                      {user.firstName}
+                    <span className="text-xs text-gray-400 -ml-6  font-semibold ">
+                      {`Hi ${user.firstName}!`}
                     </span>
                   </>
                 ) : (
@@ -197,7 +204,7 @@ const Header = () => {
           >
             <FiShoppingCart className="w-12 h-12 text-white bg-green-400 rounded-full py-4" />
             <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center ">
-              <p className="text-xs text-textColor1 ">16</p>
+              <p className="text-xs text-slate-500 ">{totalItems}</p>
             </div>
           </motion.div>
         </div>

@@ -10,6 +10,7 @@ import { actionType } from "../context/reducer";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [{ user }, dispatch] = useStateValue();
 
   const [inputs, setInputs] = useState({
@@ -36,7 +37,7 @@ const Login = () => {
         console.log(response.data.user);
 
         toast.success("Logged in Successfully");
-        navigate("/"); // Update with your desired route
+        navigate("/");
 
         // Update the global state with the user info
         dispatch({

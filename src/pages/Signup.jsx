@@ -133,7 +133,7 @@ const Signup = () => {
                 if (parseRes) {
                   localStorage.setItem("token", parseRes);
                   toast.success("Registered Successfully");
-                  navigate("/");
+                  navigate("/login");
                 } else {
                   toast.error(parseRes);
                 }
