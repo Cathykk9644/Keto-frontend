@@ -116,7 +116,7 @@ const Header = () => {
                   <>
                     <button
                       onClick={logout}
-                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400"
+                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400 hover:scale-95"
                     >
                       {" "}
                       Logout
@@ -124,7 +124,7 @@ const Header = () => {
                     <img
                       src={user.profile_picture}
                       alt="Profile"
-                      className="w-11 h-11 rounded-full object-cover cursor-pointer border-gray-300 border-2
+                      className="w-11 h-11 rounded-full object-cover cursor-pointer border-gray-300 border-2 hover:scale-95
                       
                       "
                       ref={dropdownRef} // Add this line to set the ref for the dropdown
@@ -134,7 +134,7 @@ const Header = () => {
                     {dropdown && (
                       <div className="absolute right-0 mt-24 py-1 w-24 bg-white rounded-lg shadow-xl z-20">
                         <span
-                          className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                          className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate("/profile");
@@ -144,7 +144,7 @@ const Header = () => {
                           Profile
                         </span>
                         <span
-                          className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                          className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate("/orders");
@@ -155,7 +155,7 @@ const Header = () => {
                         </span>
                         {isAdmin && (
                           <span
-                            className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
+                            className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate("/addmeal");

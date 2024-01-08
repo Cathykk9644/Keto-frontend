@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@stripe/stripe-js": "^2.2.2",
     "axios": "^1.6.3",
     "dom-to-image": "^2.6.0",
     "dom-to-image-more": "^3.2.0",

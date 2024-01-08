@@ -8,6 +8,7 @@ import Orders from "./components/Orders";
 import Profile from "./components/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/addmeal" element={<AddNewMeal />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />{" "}
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
       </Routes>
+
       <ToastContainer position="bottom-right" />
     </div>
   );

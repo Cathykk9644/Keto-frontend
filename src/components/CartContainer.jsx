@@ -8,12 +8,48 @@ import { actionType } from "../context/reducer";
 import EmptyCart from "../Assets/EmptyCart.avif";
 import CartItem from "./CartItem";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { BACKEND_URL } from "../constants";
 
 const CartContainer = () => {
   const navigate = useNavigate();
   const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
   const [flag, setFlag] = useState(1);
   const [tot, setTot] = useState(0);
+
+  const stripePromise = loadStripe(
+    "pk_test_51OWBijK56MGI4ZMlzqLUxpfkmNF1cZo31g3lP7f7Se83vB76J4yG6ba3SbVTMcxw8ymr31JCz4qCfggvsFW0Gsgo00b8LYvSke"
+  );
+
+  const handleCheckout = async () => {
+    try {
+      // Create a checkout object to send to the backend
+      const checkoutCart = cartItems.map((item) => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.meal_picture,
+      }));
+
+      // Send the cart to your backend to create a checkout session
+      const response = await axios.post(
+        `${BACKEND_URL}/meals/create-checkout-session`,
+        {
+          items: checkoutCart,
+        }
+      );
+
+      // Get the Checkout Session ID
+      const sessionId = response.data.sessionId;
+
+      // Redirect the customer to the Stripe Checkout page
+      const stripe = await stripePromise;
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      console.error("Checkout error", error);
+    }
+  };
 
   const showCart = () => {
     dispatch({
@@ -88,24 +124,25 @@ const CartContainer = () => {
               <p className="text-white text-md">Sub-total :</p>
               <p className="text-white text-md">${tot}</p>
             </div>
-            <div className="w-full flex items-center justify-between">
+            {/* <div className="w-full flex items-center justify-between">
               <p className="text-white text-md">Delivery :</p>
               <p className="text-white text-md">$4.19</p>
-            </div>
+            </div> */}
 
             <div className="w-full border-b border-white my-2"></div>
 
             <div className="w-full flex items-center justify-between">
               <p className="text-white text-lg font-semibold">Total :</p>
               <p className="text-white text-lg font-semibold">
-                ${(+tot + 4.19).toFixed(2)}
+                ${(+tot).toFixed(2)}
               </p>
             </div>
 
             {user ? (
               <motion.button
-                whileTap={{ scale: 0.8 }}
+                whileTap={{ scale: 0.9 }}
                 type="button"
+                onClick={handleCheckout}
                 className="w-full p-2  rounded-2xl bg-transparent border-2 text-gray-50 text-lg my-2 hover:shadow-lg hover:scale-95"
               >
                 Check Out
