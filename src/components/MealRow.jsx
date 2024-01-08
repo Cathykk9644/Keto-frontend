@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 const MealRow = ({ meal, flag }) => {
   const [{}, dispatch] = useStateValue();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const addToCart = () => {
     dispatch({
@@ -18,6 +19,11 @@ const MealRow = ({ meal, flag }) => {
       autoClose: 1800,
     });
   };
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   if (!meal) {
     return <div>No meal data available</div>;
   }
@@ -54,7 +60,10 @@ const MealRow = ({ meal, flag }) => {
             </p>
             <motion.div
               whileTap={{ scale: 0.8 }}
-              className="w-8 h-8 rounded-full bg-emerald-400 flex items-center justify-center text-white text-xs cursor-pointer hover:shadow-md hover:bg-emerald-500 -mr-16"
+              className={`w-8 h-8 rounded-full bg-emerald-400 flex items-center justify-center text-white text-xs cursor-pointer hover:shadow-md hover:bg-emerald-500 -mr-16 ${
+                isFavorite ? "bg-red-300" : ""
+              }`}
+              onClick={toggleFavorite}
             >
               <FaRegHeart />
             </motion.div>

@@ -2,7 +2,7 @@ import React from "react";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-import EmptyCart from "../Assets/EmptyCart.avif";
+import cart from "../Assets/cart.jpeg";
 import { useNavigate, Link } from "react-router-dom";
 
 const Testimonial = () => {
@@ -84,11 +84,11 @@ const Testimonial = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="order-2 md:order-1 flex justify-center opacity-70">
+          <div className="order-2 md:order-1 flex justify-center opacity-80">
             <img
-              src={EmptyCart}
+              src={cart}
               alt="Promotion"
-              className="w-[90%] h-auto bject-cover rounded-full"
+              className="w-[90%] h-auto object-cover rounded-full"
             />
           </div>
           <div className="order-1 md:order-2 text-center md:text-left p-8 mt-0">

@@ -3,87 +3,82 @@ import { BiMinus, BiPlus } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
-import { fetchCart } from "../utils/fetchLocalStorageData";
-let items = [];
 
-const CartItem = ({ item, setFlag, flag }) => {
+const CartItem = ({ item, setFlag }) => {
   const [{ cartItems }, dispatch] = useStateValue();
-  const [qty, setQty] = useState(item.qty);
+  const [quantity, setQuantity] = useState(1);
 
-  const cartDispatch = () => {
-    localStorage.setItem("cartItems", JSON.stringify(items));
+  const updateCartState = (newCartItems) => {
+    localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+
     dispatch({
       type: actionType.SET_CARTITEMS,
-      cartItems: items,
+      cartItems: newCartItems,
     });
+
+    setFlag((f) => f + 1);
   };
 
-  const updateQty = (action, id) => {
-    if (action === "add") {
-      setQty(qty + 1);
-      cartItems.map((item) => {
-        if (item.id === id) {
-          item.qty += 1;
-          setFlag(flag + 1);
+  const updateQuantity = (action, id) => {
+    let newCartItems = cartItems
+      .map((cartItem) => {
+        if (cartItem.id === id) {
+          const newQuantity = cartItem.quantity + (action === "add" ? 1 : -1);
+          setQuantity(newQuantity);
+          return {
+            ...cartItem,
+            quantity: newQuantity,
+          };
         }
-      });
-      cartDispatch();
-    } else {
-      // initial state value is one so you need to check if 1 then remove it
-      if (qty === 1) {
-        items = cartItems.filter((item) => item.id !== id);
-        setFlag(flag + 1);
-        cartDispatch();
-      } else {
-        setQty(qty - 1);
-        cartItems.map((item) => {
-          if (item.id === id) {
-            item.qty -= 1;
-            setFlag(flag + 1);
-          }
-        });
-        cartDispatch();
-      }
-    }
+        return cartItem;
+      })
+      .filter((cartItem) => cartItem.quantity > 0);
+
+    updateCartState(newCartItems);
   };
 
   useEffect(() => {
-    items = cartItems;
-  }, [qty, items]);
+    const itemQuantity = Number(item.quantity);
+    setQuantity(!isNaN(itemQuantity) ? itemQuantity : 1);
+  }, [item.quantity]);
 
   return (
-    <div className="w-full p-1 px-2 rounded-lg bg-gray-600 flex items-center gap-2">
+    <div className="w-full py-2 px-2 rounded-lg bg-gradient-to-br from-emerald-600 to bg-green-500 flex items-center gap-2">
       <img
-        src={item?.imageURL}
-        className="w-20 h-20 max-w-[60px] rounded-full object-contain"
-        alt=""
+        src={item?.meal_picture}
+        className="w-16 h-16 max-w-[60px] rounded-full object-cover"
+        alt={item?.name}
       />
-      dust Copy
       {/* name section */}
       <div className="flex flex-col gap-2">
-        <p className="text-base text-gray-50">{item?.title}</p>
-        <p className="text-sm block text-gray-300 font-semibold">
-          $ {parseFloat(item?.price) * qty}
+        <p className="text-sm text-white">{item?.name}</p>
+
+        {/* Check if item?.price is a valid number and qty is defined before multiplying */}
+        <p className="text-sm block text-white font-semibold">
+          {item?.price && !isNaN(quantity)
+            ? (parseFloat(item?.price) * quantity).toFixed(2)
+            : "0.00"}
         </p>
       </div>
+
       {/* button section */}
       <div className="group flex items-center gap-2 ml-auto cursor-pointer">
         <motion.div
           whileTap={{ scale: 0.75 }}
-          onClick={() => updateQty("remove", item?.id)}
+          onClick={() => updateQuantity("remove", item?.id)}
         >
-          <BiMinus className="text-gray-50 " />
+          <BiMinus className="text-gray-50" />
         </motion.div>
 
-        <p className="w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
-          {qty}
+        <p className="w-5 h-5 rounded-2xl border-2 text-white text-xs flex items-center justify-center">
+          {quantity}
         </p>
 
         <motion.div
           whileTap={{ scale: 0.75 }}
-          onClick={() => updateQty("add", item?.id)}
+          onClick={() => updateQuantity("add", item?.id)}
         >
-          <BiPlus className="text-gray-50 " />
+          <BiPlus className="text-gray-50" />
         </motion.div>
       </div>
     </div>

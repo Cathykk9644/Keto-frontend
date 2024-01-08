@@ -96,7 +96,14 @@ const Header = () => {
               </div>
 
               <div className="flex items-center gap-1 text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer font-semibold">
-                <li className="text-sm">Meals</li>
+                <li
+                  className="text-sm"
+                  onClick={() => {
+                    navigate("/addmeal");
+                  }}
+                >
+                  Meals
+                </li>
                 <RiArrowDropDownLine className="text-2xl " />
               </div>
 
@@ -139,7 +146,7 @@ const Header = () => {
                         <span
                           className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
                           onClick={(e) => {
-                            e.stopPropagation(); // Prevent the event from being propagated to parent elements
+                            e.stopPropagation();
                             navigate("/orders");
                             setDropdown(false);
                           }}
@@ -150,7 +157,7 @@ const Header = () => {
                           <span
                             className="block px-4 py-1 text-xs capitalize text-gray-400 hover:bg-slate-400 hover:text-white cursor-pointer"
                             onClick={(e) => {
-                              e.stopPropagation(); // Prevent the event from being propagated to parent elements
+                              e.stopPropagation();
                               navigate("/addmeal");
                               setDropdown(false);
                             }}
@@ -175,7 +182,7 @@ const Header = () => {
                     </button>
                     <button
                       onClick={() => navigate("/signup")}
-                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400"
+                      className="text-sm text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer border-2 p-2 font-semibold rounded-lg border-slate-400 hover:scale-90"
                     >
                       Signup
                     </button>

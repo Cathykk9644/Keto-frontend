@@ -7,7 +7,7 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import EmptyCart from "../Assets/EmptyCart.avif";
 import CartItem from "./CartItem";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CartContainer = () => {
   const navigate = useNavigate();
@@ -23,12 +23,15 @@ const CartContainer = () => {
   };
 
   useEffect(() => {
-    let totalPrice = cartItems.reduce(function (accumulator, item) {
-      return accumulator + item.qty * item.price;
+    let totalPrice = cartItems.reduce((accumulator, item) => {
+      const itemPrice = parseFloat(item.price);
+      const itemQuantity = parseInt(item.quantity, 10);
+      const price = isNaN(itemPrice) ? 0 : itemPrice;
+      const quantity = isNaN(itemQuantity) ? 0 : itemQuantity;
+      return accumulator + price * quantity;
     }, 0);
-    setTot(totalPrice);
-    console.log(tot);
-  }, [tot, flag]);
+    setTot(totalPrice.toFixed(2));
+  }, [cartItems]);
 
   const clearCart = () => {
     dispatch({
@@ -63,7 +66,7 @@ const CartContainer = () => {
 
       {/* bottom section */}
       {cartItems && cartItems.length > 0 ? (
-        <div className="w-full h-full bg-blue-500 rounded-t-[2rem] flex flex-col">
+        <div className="w-full h-full bg-bgColor1 rounded-t-[2rem] flex flex-col">
           {/* cart Items section */}
           <div className="w-full h-340 md:h-42 px-6 py-10 flex flex-col gap-3 overflow-y-scroll scrollbar-none">
             {/* cart Item */}
@@ -80,22 +83,22 @@ const CartContainer = () => {
           </div>
 
           {/* cart total section */}
-          <div className="w-full flex-1 bg-red-800 rounded-t-[2rem] flex flex-col items-center justify-evenly px-8 py-2">
+          <div className="w-full flex-1 bg-gradient-to-br  from-green-400 to bg-emerald-700 rounded-t-[2rem] flex flex-col items-center justify-evenly px-8 py-2">
             <div className="w-full flex items-center justify-between">
-              <p className="text-gray-400 text-lg">Sub Total</p>
-              <p className="text-gray-400 text-lg">$ {tot}</p>
+              <p className="text-white text-md">Sub-total :</p>
+              <p className="text-white text-md">${tot}</p>
             </div>
             <div className="w-full flex items-center justify-between">
-              <p className="text-gray-400 text-lg">Delivery</p>
-              <p className="text-gray-400 text-lg">$ 4.1</p>
+              <p className="text-white text-md">Delivery :</p>
+              <p className="text-white text-md">$4.19</p>
             </div>
 
-            <div className="w-full border-b border-gray-600 my-2"></div>
+            <div className="w-full border-b border-white my-2"></div>
 
             <div className="w-full flex items-center justify-between">
-              <p className="text-gray-200 text-xl font-semibold">Total</p>
-              <p className="text-gray-200 text-xl font-semibold">
-                ${tot + 2.5}
+              <p className="text-white text-lg font-semibold">Total :</p>
+              <p className="text-white text-lg font-semibold">
+                ${(+tot + 4.19).toFixed(2)}
               </p>
             </div>
 
@@ -103,7 +106,7 @@ const CartContainer = () => {
               <motion.button
                 whileTap={{ scale: 0.8 }}
                 type="button"
-                className="w-full p-2 rounded-full bg-gradient-to-tr from-green-400 to-green-600 text-gray-50 text-lg my-2 hover:shadow-lg"
+                className="w-full p-2  rounded-2xl bg-transparent border-2 text-gray-50 text-lg my-2 hover:shadow-lg hover:scale-95"
               >
                 Check Out
               </motion.button>
@@ -112,7 +115,7 @@ const CartContainer = () => {
                 whileTap={{ scale: 0.8 }}
                 type="button"
                 onClick={() => navigate("/login")}
-                className="w-full p-2 rounded-full bg-gradient-to-tr from-orange-400 to-orange-600 text-gray-50 text-lg my-2 hover:shadow-lg"
+                className="w-full p-2 rounded-2xl bg-transparent border-2 text-white text-lg my-2 hover:shadow-lg hover:scale-95"
               >
                 Login to check out
               </motion.button>
