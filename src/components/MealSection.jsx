@@ -30,7 +30,7 @@ const MealSection = () => {
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       const { scrollLeft, clientWidth } = scrollContainerRef.current;
-      const scrollAmount = clientWidth; // scroll half the width of the container
+      const scrollAmount = clientWidth;
       const newScrollPosition =
         direction === "left"
           ? scrollLeft - scrollAmount

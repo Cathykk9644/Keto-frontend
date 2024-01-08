@@ -73,7 +73,7 @@ const Signup = () => {
                   { credentials: "include" }
                 );
                 console.log(response.data);
-                const parseRes = response.jwtToken;
+                const parseRes = response.data.jwtToken;
 
                 if (parseRes) {
                   localStorage.setItem("token", parseRes);
@@ -128,7 +128,7 @@ const Signup = () => {
                   { credentials: "include" }
                 );
                 console.log(response.data);
-                const parseRes = response.jwtToken;
+                const parseRes = response.data.jwtToken;
 
                 if (parseRes) {
                   localStorage.setItem("token", parseRes);
