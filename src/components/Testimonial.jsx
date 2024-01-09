@@ -3,7 +3,7 @@ import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import cart from "../Assets/cart.jpeg";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Testimonial = () => {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ const Testimonial = () => {
               Sign Up Now
             </button>
           </div>
-        </div>
+        </div>{" "}
       </section>
     </>
   );

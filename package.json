@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@stripe/stripe-js": "^2.2.2",
+    "aos": "^2.3.4",
     "axios": "^1.6.3",
     "dom-to-image": "^2.6.0",
     "dom-to-image-more": "^3.2.0",

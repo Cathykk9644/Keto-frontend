@@ -16,7 +16,7 @@ const MealRow = ({ meal, flag }) => {
       payload: meal,
     });
     toast.success(`${meal.name} added to cart!`, {
-      autoClose: 1800,
+      autoClose: 1400,
     });
   };
 

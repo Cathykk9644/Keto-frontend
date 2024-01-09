@@ -63,7 +63,9 @@ const AddNewMeal = () => {
 
       try {
         const snapshot = await uploadBytes(storageRefInstance, imageFile);
+
         const downloadUrl = await getDownloadURL(storageRefInstance);
+        console.log("Download URL:", downloadUrl);
         setImageUrl(downloadUrl);
 
         const newMeal = {

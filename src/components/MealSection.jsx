@@ -5,6 +5,7 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import MealRow from "./MealRow";
 import { BACKEND_URL } from "../constants";
 import { useEffect, useState, useRef } from "react";
+import { useStateValue } from "../context/StateProvider";
 
 const MealSection = () => {
   const [meals, setMeals] = useState([]);
@@ -51,7 +52,7 @@ const MealSection = () => {
   }
 
   return (
-    <section className="w-full mt-16 px-16 py-4 bg-bgColor1">
+    <section className="w-full mt-16 px-16 py-4 bg-bgColor1 ">
       <div className="flex justify-between items-center mb-4">
         <p className="text-2xl font-semibold capitalize relative text-textColor1 before:absolute before:rounded-lg before:content before:w-56 before:h-1.5 before:-bottom-3 before:left-0 before:bg-gradient-to-tr from-emerald-200 to-emerald-600 transition-all ease-in-out duration-100">
           Our top & healthy keto meal choices

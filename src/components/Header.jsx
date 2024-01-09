@@ -4,7 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { motion } from "framer-motion";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import { toast } from "react-toastify";
@@ -41,7 +41,7 @@ const Header = () => {
     };
   }, [dropdown]); // Dependency array with dropdown ensures the effect is run when the dropdown's visibility changes
 
-  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
+  const [{ user, cartShow, cartItems, searchTerm }, dispatch] = useStateValue();
 
   // Calculate the total number of items in the cart
   const totalItems = cartItems.reduce(
@@ -80,9 +80,6 @@ const Header = () => {
 
   return (
     <div className="w-screen z-50 p-6 px-16">
-      {/* for mobile /}
-<div className="flex md:hidden w-full h-full"></div>
-{/ for desktop & tablet */}
       <div className="hidden md:flex w-full h-full justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="flex items-center">
@@ -96,14 +93,7 @@ const Header = () => {
               </div>
 
               <div className="flex items-center gap-1 text-textColor1 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer font-semibold">
-                <li
-                  className="text-sm"
-                  onClick={() => {
-                    navigate("/addmeal");
-                  }}
-                >
-                  Meals
-                </li>
+                <li className="text-sm">Meals</li>
                 <RiArrowDropDownLine className="text-2xl " />
               </div>
 
@@ -127,7 +117,7 @@ const Header = () => {
                       className="w-11 h-11 rounded-full object-cover cursor-pointer border-gray-300 border-2 hover:scale-95
                       
                       "
-                      ref={dropdownRef} // Add this line to set the ref for the dropdown
+                      // ref={dropdownRef} // Add this line to set the ref for the dropdown
                       onClick={toggleDropdown}
                     />
                     {/* dropdown bar */}
@@ -135,8 +125,7 @@ const Header = () => {
                       <div className="absolute right-0 mt-24 py-1 w-24 bg-white rounded-lg shadow-xl z-20">
                         <span
                           className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
+                          onClick={() => {
                             navigate("/profile");
                             setDropdown(false);
                           }}
@@ -145,8 +134,7 @@ const Header = () => {
                         </span>
                         <span
                           className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
+                          onClick={() => {
                             navigate("/orders");
                             setDropdown(false);
                           }}
@@ -156,8 +144,7 @@ const Header = () => {
                         {isAdmin && (
                           <span
                             className="block px-4 py-1 text-xs capitalize text-gray-600 hover:bg-slate-50  cursor-pointer"
-                            onClick={(e) => {
-                              e.stopPropagation();
+                            onClick={() => {
                               navigate("/addmeal");
                               setDropdown(false);
                             }}
@@ -167,7 +154,7 @@ const Header = () => {
                         )}
                       </div>
                     )}
-                    <span className="text-xs text-gray-400 -ml-6  font-semibold ">
+                    <span className="text-xs text-gray-500 -ml-6  ">
                       {`Hi ${user.firstName}!`}
                     </span>
                   </>
