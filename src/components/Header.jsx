@@ -21,7 +21,6 @@ const Header = () => {
     setDropdown(!dropdown);
   };
 
-  // This effect will add an event listener to the document to hide the dropdown when clicking outside
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       if (
@@ -39,7 +38,7 @@ const Header = () => {
       // Cleanup the event listener
       document.removeEventListener("mousedown", checkIfClickedOutside);
     };
-  }, [dropdown]); // Dependency array with dropdown ensures the effect is run when the dropdown's visibility changes
+  }, [dropdown]);
 
   const [{ user, cartShow, cartItems, searchTerm }, dispatch] = useStateValue();
 
@@ -50,7 +49,7 @@ const Header = () => {
   );
 
   // Define the admin email here
-  const adminEmail = "florahui@test.com";
+  const adminEmail = "annabell@test.com";
 
   // Check if the user is an admin
   useEffect(() => {
@@ -154,7 +153,7 @@ const Header = () => {
                         )}
                       </div>
                     )}
-                    <span className="text-xs text-gray-500 -ml-6  ">
+                    <span className="text-xs text-gray-500 -ml-6 capitalized">
                       {`Hi ${user.firstName}!`}
                     </span>
                   </>

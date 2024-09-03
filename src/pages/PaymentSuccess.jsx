@@ -8,7 +8,7 @@ const PaymentSuccess = () => {
 
   setTimeout(() => {
     navigate("/");
-  }, 10000);
+  }, 9000);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-bgColor1 gap-6">

@@ -216,3 +216,5 @@ const AddNewMeal = () => {
 };
 
 export default AddNewMeal;
+
+// Duplicate with Addmeal component

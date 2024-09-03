@@ -55,6 +55,8 @@ const Signup = () => {
         storage,
         STORAGE_KEY + profilePictureFile.name
       );
+
+      //can make code cleaner by shortening how to get the URL from firebase
       uploadBytes(storageRefInstance, profilePictureFile).then((snapshot) => {
         getDownloadURL(storageRefInstance, profilePictureFile.name).then(
           (url) => {
@@ -110,9 +112,11 @@ const Signup = () => {
           width: node.offsetWidth * scale,
         });
 
+        //can make code cleaner by shortening how to get the URL from firebase
         const storageRefInstance = ref(storage, STORAGE_KEY + filename);
         uploadBytes(storageRefInstance, blob).then((snapshot) => {
           getDownloadURL(storageRefInstance, filename).then((url) => {
+            // modulize the this part to make it more readable
             const sendSignupInformation = async () => {
               try {
                 const newUser = {
@@ -351,12 +355,12 @@ const Signup = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0 }}
-            className="flex flex-col items-center justify-center w-1/2 bg-bgColor2"
+            className="flex flex-col items-center justify-center w-1/2 bg-bgColor2 gap-2"
           >
-            <h2 className="text-2xl font-semibold text-gray-500 mb-4">
+            <h2 className="text-2xl font-semibold text-gray-500 ">
               Avatar Time
             </h2>
-            <p className="text-xs text-center w-3/4 text-gray-400">
+            <p className="text-xs text-center w-1/2 text-gray-400 ">
               You can choose from any of our existing avatars, or feel free to
               upload your very own amazing picture!
             </p>
@@ -391,7 +395,7 @@ const Signup = () => {
                 </>
               )}
             </div>
-            <div className="flex flex-col items-center justify-center gap-2 mt-6 w-full">
+            <div className="flex flex-col items-center justify-center gap-2 mt-2 w-full">
               <label
                 htmlFor="image-input"
                 className="btn cursor-pointer  px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none"

@@ -124,3 +124,5 @@ const Login = () => {
 };
 
 export default Login;
+
+// toast msg aligned with the backend for consistency
