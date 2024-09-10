@@ -4,8 +4,9 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AddNewMeal from "./pages/AddNewMeal";
+import Profile from "./pages/Profile";
 import Orders from "./components/Orders";
-import Profile from "./components/Profile";
+
 import Loading from "./components/Loading";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
