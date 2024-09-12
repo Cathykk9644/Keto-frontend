@@ -3,8 +3,11 @@ import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
 import { BACKEND_URL } from "../constants";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EditUserModal = ({ user, setUserProfile, onClose }) => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [profilePicture, setProfilePicture] = useState(user.profile_picture);
@@ -42,6 +45,8 @@ const EditUserModal = ({ user, setUserProfile, onClose }) => {
       console.log("User updated successfully:", response.data);
       setUserProfile(response.data);
       onClose();
+      toast.success("User profile updated successfully");
+      navigate("/");
     } catch (error) {
       console.error("Error updating user:", error);
     } finally {

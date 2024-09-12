@@ -16,10 +16,10 @@ const reducer = (state, action) => {
         user: action.user,
       };
 
-    case actionType.UPDATE_USER:
+    case actionType.SET_UPDATE_USER:
       return {
         ...state,
-        user: action.updatedUser,
+        user: { ...state.user, ...action.updatedUser },
       };
 
     case actionType.SET_FOOD_ITEMS:
